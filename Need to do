@@ -1,0 +1,20 @@
+***matplotlib作圖***
+移動停損 or 停損後馬上加碼
+加碼
+平倉
+多貨幣對
+
+確認是否爆倉
+報倉後不可繼續交易
+
+停損停利的交易要特別標示 OK (還沒放在earn裡)
+need to test
+
+
+hold_record 需要有當下的 money 做比對
+
+test需整理
+***AUDUSD 的test 未完成 但可使用***
+
+
+money 需每次 update 就更新  ( 函式已寫好但似乎有錯 ) ( OK )
