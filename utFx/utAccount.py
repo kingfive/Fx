@@ -12,6 +12,12 @@ from datetime import datetime
 EURUSD_diff = 0.00006
 money = 100000
 
+'''
+earn 的 money 尚未測 但結果正確
+profit需要測試 結果應正確
+停損停利先不用測
+'''
+
 class utAccount(unittest.TestCase):
     '''
     argument set :

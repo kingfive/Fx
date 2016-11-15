@@ -23,7 +23,6 @@ class Account():
     account.trade_multiple( 'EURUSD' , multiple )
         # Have a trade ( multiple is a multiple of money )
 
-
     ### Get your output
 
     account.earn  <--  It's a list
@@ -83,19 +82,6 @@ class Account():
         self.__stop_win = stop_win * self.__money # reset stop_win
         self.__stop_type = 'Multiple type'
 
-    def __add_difference_to_data(self,currency,volume):
-        '''
-        add fee to price , when BUY or SELL ,this function will be called
-                           ( when call "trade_money" or "trade_multiple" )
-        '''
-        diff = self.__difference[ currency ]
-        data = copy( self.get_now( currency ) )
-        if volume > 0:
-            data.set_price( round( data.price + diff ,5) )
-        elif volume < 0:
-            data.set_price( round( data.price - diff ,5) )
-        return data
-
     def update(self,data):
         if not type(data) is Data :  # 輸入參數若不是 Data object 則不做
             return
@@ -112,16 +98,11 @@ class Account():
             self.set_stop_multiple(self.__stop_loss_multiple,self.__stop_win_multiple)
             # reset stop_multiple
 
-    def __add_float_profit_to_money(self):
-        self.__money  = self.__money_not_add_float_profit
-        self.__money += self.__EURUSD_float_profit
-        self.__money += self.__AUDUSD_float_profit
-
     def trade_money(self , currency , volume):
         if volume == 0:
             return
         self.__chooser( currency ) # 置換不同貨幣對需要的function
-        data = self.__add_difference_to_data( currency , volume )#捕手續費
+        data = self.__add_difference_to_data( currency , volume )#買進OR賣出時補手續費
         order = Order(data , volume + self.__volume() )
         self.__hold_record.append( order ) # update hold record
         order = Order(data , volume)
@@ -130,7 +111,6 @@ class Account():
         self.__reversal( order ) # 沖銷之前的下單（如果有的話）
         self.__calculate_profit( currency )
         self.__add_float_profit_to_money()
-
 
     def trade_multiple(self , currency , multiple):
         if multiple == 0:
@@ -213,19 +193,19 @@ class Account():
         order_copy = copy( order )
         while H and abs(order.volume) > abs(H[0].volume):
             earn = self.__calculate_earn(self.__status() , H[0] , order_copy , H[0].volume )
-            self.__add_earn( earn )
             order.volume += H[0].volume
             H.pop(0)
+            self.__add_earn( earn )
         if  H and abs(order.volume) == abs(H[0].volume):
             earn = self.__calculate_earn(self.__status() , H[0] , order_copy, H[0].volume )
-            self.__add_earn( earn )
             order.volume += H[0].volume
             H.pop(0)
+            self.__add_earn( earn )
         elif H and abs(order.volume) < abs(H[0].volume):
             earn = self.__calculate_earn(self.__status() , H[0] , order_copy , order_copy.volume )
-            self.__add_earn( earn )
             H[0].volume += order.volume
             order.volume = 0
+            self.__add_earn( earn )
         if  not H and order.volume != 0:
             H.append( order ) #append a order to hold
 
@@ -234,36 +214,37 @@ class Account():
         order_copy = copy( order ) # if not copy , something wrong will happen
         while (H and  abs(order.volume) > abs(H[0].volume)) :
             earn = self.__calculate_earn( self.__status() , order_copy, H[0] , H[0].volume )
-            self.__add_earn( earn )
             order.volume -= abs(H[0].volume)
             H.pop(0)
+            self.__add_earn( earn )
         if  H and abs(order.volume) == abs(H[0].volume):
             earn = self.__calculate_earn( self.__status() , order_copy, H[0] , H[0].volume )
-            self.__add_earn( earn )
             order.volume -= abs(H[0].volume)
             H.pop(0)
+            self.__add_earn( earn )
         elif H and abs(order.volume) < abs(H[0].volume):
             earn = self.__calculate_earn( self.__status() , order_copy, H[0] , order_copy.volume )
-            self.__add_earn( earn )
             H[0].volume += order.volume
             order.volume = 0
+            self.__add_earn( earn )
         if  not H and order.volume != 0 :
             H.append( order ) #append a order to hold
 
+    def __add_float_profit_to_money(self):
+        self.__money  = self.__money_not_add_float_profit
+        self.__money += self.__EURUSD_float_profit
+        self.__money += self.__AUDUSD_float_profit
+
     def __add_earn(self , earn):
         self.__money_not_add_float_profit += earn.profit
-        print( self.__money_not_add_float_profit )
-        print(len(self.__hold))
         self.__calculate_profit( earn.buy.data.currency )
-        print( self.__EURUSD_float_profit )
-        #self.__add_float_profit_to_money()
-        print( self.money )
+        self.__add_float_profit_to_money()
         if earn.profit > 0:
             win_or_not = 1
         else:
             win_or_not = 0
-        self.__reversal_time += 1
         self.__win_rate = (self.reversal_time* self.win_rate + win_or_not) / (self.reversal_time + 1)
+        self.__reversal_time += 1
         earn.set_money_and_win_rate( self.win_rate , self.money )
         self.earn.append( earn )
 
@@ -275,6 +256,7 @@ class Account():
                     i.profit = 0
                     i.profit += X_USD_profit(i,self.__EURUSD_now)
                     self.__EURUSD_float_profit += i.profit
+
         if currency == 'AUDUSD' :
             self.__AUDUSD_float_profit = 0
             if self.__hold :
@@ -294,6 +276,20 @@ class Account():
                     self.__trade_hold(index , 'Stop win' , currency)
         # check_stop -> trade_hold -> __reversal_hold ->
         # __reversal_hold_bull or __reversal_hold_bear
+
+    def __add_difference_to_data(self,currency,volume):
+        '''
+        add fee to price , when BUY or SELL ,this function will be called
+                           ( when call "trade_money" or "trade_multiple" )
+        '''
+        diff = self.__difference[ currency ]
+        data = copy( self.get_now( currency ) )
+        if volume > 0:
+            data.set_price( round( data.price + diff ,5) )
+        elif volume < 0:
+            data.set_price( round( data.price - diff ,5) )
+        return data
+
 
     def __trade_hold(self,index,typee,currency): # 停損停利用
         '''
@@ -330,6 +326,7 @@ class Account():
         self.__calculate_profit( order.data.currency ) # pop hold 後 先更新profit
         self.__add_float_profit_to_money() # 再把profit 更新至money
         self.__add_earn( earn ) # 最後把更新後的資料傳進earn
+
 
     @property
     def money(self):
