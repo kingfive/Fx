@@ -1,5 +1,6 @@
 from form import Earn , Data , Order
 from copy import copy
+
 def X_USD(bull_or_bear,buy,sell,volume):
     ans = round( round(sell.data.price - buy.data.price,5) * abs(volume) )
     #"round()" is to solve float error

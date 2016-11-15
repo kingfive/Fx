@@ -4,22 +4,36 @@ from copy import copy
 
 class Account():
     '''
-    ------------
+
+    ----------------------------------------------------------------------------
     How to use it ?
-    ------------
+    ----------------------------------------------------------------------------
+
     ### Start to make a trade
+    ### Example
 
     account = Account( your money )
+        # Have an account
+    currency = Currency( "EURUSD" , "2001-1" , "2016-3")
+        # Open a currency data file
+    account.update( currency.get_data())
+        # Update currency data in account
     account.trade_money( 'EURUSD' , volume )
+        # Have a trade ( volume can be positive or negative )
     account.trade_multiple( 'EURUSD' , multiple )
+        # Have a trade ( multiple is a multiple of money )
+
 
     ### Get your output
 
     account.earn  <--  It's a list
-    ------------
+
+    ----------------------------------------------------------------------------
     How it did ?
-    ------------
+    ----------------------------------------------------------------------------
+
     加入新貨幣對 需要改的地方 chooser  calculate_profit  update  get_now
+
     '''
 
     def __init__(self , money):
@@ -116,6 +130,7 @@ class Account():
         self.__reversal( order ) # 沖銷之前的下單（如果有的話）
         self.__calculate_profit( currency )
         self.__add_float_profit_to_money()
+
 
     def trade_multiple(self , currency , multiple):
         if multiple == 0:

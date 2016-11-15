@@ -1,0 +1,62 @@
+Account:
+  public variable:
+    [
+        money  #帳戶現有資金
+
+    ]
+  	[    win_rate        ]
+    [    reversal_time   ]
+    [    earn            ]
+    [
+    	EURUSD_hold
+        AUDUSD_hold
+    ]
+	[
+    	EURUSD_hold_record
+        AUDUSD_hold_record
+    ]
+    [
+    	EURUSD_order_history
+        AUDUSD_order_history
+    ]
+    [   EURUSD_now   ]
+
+  public function:
+  	set_stop( stop_loss , stop_win )
+
+  	set_stop_multiple( stop_loss , stop_win )
+    update( data )
+    trade_money( currency , volume )
+    trade_multiple( currency , multiple )
+    get_now( currency )
+    EURUSD_status()
+    AUDUSD_status()
+    EURUSD_volume()
+    AUDUSD_volume()
+
+
+  privacy variable:
+    [   money_not_add_float_profit #未加入浮動損益之現金
+	[
+		stop_loss  # 停損 (money)
+		stop_win  # 停利 (money)
+        self.__stop_loss_multiple # 停損
+        self.__stop_win_multiple # 停利
+		stop_type 停損停利種類( money or multiple )
+	]
+    hold             # function inside
+    hold_record      # function inside
+    order_history    # function inside
+
+	[	difference   #匯差  ]
+
+update(data):
+    當帳戶有新的匯率價格出現時
+    account 必須 update
+    流程：
+        data 傳進 EURUSD_now
+        chooser 準備需要的函式或變數
+        calculate_profit
+        calculate_profit # 計算浮動損益(尚未將其加入現金)
+        check_stop # 確認是否到停損的價格
+        add_float_profit_to_money #浮動損益加入現今
