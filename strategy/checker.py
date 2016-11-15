@@ -19,7 +19,6 @@ class checker():
         for i in range(1000):
             self.account.update(self.currency.get_data())
         self.account.trade_money("EURUSD", 100000)
-
         print(self.account.earn[0])
 
 c = checker()

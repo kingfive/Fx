@@ -121,7 +121,7 @@ class Account():
         if volume == 0:
             return
         self.__chooser( currency ) # 置換不同貨幣對需要的function
-        data = self.__add_difference_to_data( currency , volume )
+        data = self.__add_difference_to_data( currency , volume )#捕手續費
         order = Order(data , volume + self.__volume() )
         self.__hold_record.append( order ) # update hold record
         order = Order(data , volume)
@@ -251,8 +251,13 @@ class Account():
             H.append( order ) #append a order to hold
 
     def __add_earn(self , earn):
-        self.__money += earn.profit
         self.__money_not_add_float_profit += earn.profit
+        print( self.__money_not_add_float_profit )
+        print(len(self.__hold))
+        self.__calculate_profit( earn.buy.data.currency )
+        print( self.__EURUSD_float_profit )
+        #self.__add_float_profit_to_money()
+        print( self.money )
         if earn.profit > 0:
             win_or_not = 1
         else:
