@@ -15,10 +15,10 @@ class checker():
 
     def main(self):
         self.account.update( self.currency.get_data() )
-        self.account.trade_money("EURUSD", 200000)
+        self.account.trade_money("EURUSD", -100000)
         for i in range(1000):
             self.account.update(self.currency.get_data())
-        self.account.trade_money("EURUSD", -100000)
+        self.account.trade_money("EURUSD", 200000)
         print(self.account.earn[0])
 
 c = checker()

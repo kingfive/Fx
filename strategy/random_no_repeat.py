@@ -10,7 +10,7 @@ class random_no_repeat():
     def __init__(self):
         self.money = 100000
         self.account = Account( self.money )
-        self.account.set_stop(1000,1000)
+        self.account.set_stop(1000,3000)
         self.currency_string = 'EURUSD'
         self.currency = Currency( self.currency_string , '2015-1' , '2015-12' )
         self.multiple = 3
