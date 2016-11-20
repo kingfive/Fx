@@ -1,9 +1,15 @@
 import sys
 sys.path.append('../')
+sys.path.append('../graph')
+
 from account import Account
 from currency import Currency
 from form import Data , Earn , Order
 from RandomTrade import get , one_or_minus , random_update , print_earn
+from graph_data import graph_data
+from graph_earn import graph_earn
+from graph_hold_record import graph_hold_record
+from GraphAll import GraphAll
 
 class checker():
     def __init__(self):
@@ -14,11 +20,17 @@ class checker():
         self.main()
 
     def main(self):
-        self.account.update( self.currency.get_data() )
+        self.update()
         self.account.trade_money("EURUSD", -100000)
         for i in range(1000):
-            self.account.update(self.currency.get_data())
+            self.update()
         self.account.trade_money("EURUSD", 200000)
-        print(self.account.earn[0])
+        GraphAll( self.account )
+
+    def update(self):
+        data = self.currency.get_data()
+        self.account.update( data )
+        graph_data().add_data( data )
+        return data
 
 c = checker()

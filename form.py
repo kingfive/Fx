@@ -46,8 +46,8 @@ class Order():
         self.__trade_type = typee
     def __str__(self):
         str_data = str(self.__data)
-        str_money = str(self.__volume)
-        return str_data +  '  ' + self.__trade_type + '  Order: ' + str_money 
+        str_volume = str(self.__volume)
+        return str_data +  '  ' + self.__trade_type + '  Order: ' + str_volume
     @property
     def data(self):
         return self.__data

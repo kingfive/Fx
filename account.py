@@ -31,7 +31,9 @@ class Account():
     How it did ?
     ----------------------------------------------------------------------------
 
-    加入新貨幣對 需要改的地方 chooser  calculate_profit  update  get_now
+    if add now currency
+    you have to revise the code :
+        chooser  calculate_profit  update  get_now
 
     '''
 
@@ -278,7 +280,7 @@ class Account():
             data.set_price( round( data.price - diff ,5) )
         return data
 
-        
+
     def __check_stop(self,currency):
         if self.__stop_loss == 0 and self.__stop_win == 0:
             return

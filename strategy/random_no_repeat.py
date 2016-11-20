@@ -8,7 +8,7 @@ from currency import Currency
 from form import Data , Earn , Order
 from RandomTrade import get , one_or_minus , random_update , print_earn
 from graph_earn import graph_earn
-
+from GraphAll import GraphAll
 
 class random_no_repeat():
     def __init__(self):
@@ -28,6 +28,5 @@ class random_no_repeat():
             data = random_update(self.account,self.currency,120)
             self.account.trade_money( self.currency_string , ran * self.money * self.multiple  )
 
-        graph_earn(self.account.earn)
-
+        GraphAll( self.account )
 s = random_no_repeat()
