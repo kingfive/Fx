@@ -18,13 +18,5 @@ def random_update(account,currency,time):
 
 
 def print_earn(account):
-    bull = 0
-    bear = 0
     for i in account.earn:
-        if i.bull_or_bear == 'bull':
-            bull += 1
-        else:
-            bear += 1
-    print('Bull of earn = ',bull)
-    print('Bear of earn = ',bear)
-    print('Money = ' , account.money)
+        print(i)

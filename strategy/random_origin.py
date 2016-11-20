@@ -19,7 +19,6 @@ class random_origin():
         self.print_order()
         self.print_earn()
 
-
     def main(self):
 
         data = self.random_get_data( self.currency_string , self.minute )
@@ -28,7 +27,6 @@ class random_origin():
             self.account.trade_multiple( self.currency_string , ran * self.multiple )
             #self.account.trade_money( self.currency_string , ran * self.money )
             data = self.random_get_data( self.currency_string , self.minute )
-
 
     def one_or_minus(self):
         l = [-1,1]

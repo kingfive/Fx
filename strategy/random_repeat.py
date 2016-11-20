@@ -1,10 +1,13 @@
 import sys
 sys.path.append('../')
+sys.path.append('../graph')
 import random
 from account import Account
 from currency import Currency
 from form import Data , Earn , Order
 from RandomTrade import get , one_or_minus , random_update , print_earn
+from graph_earn import graph_earn
+from graph_hold_record import graph_hold_record
 
 class random_repeat():
     def __init__(self):
@@ -12,7 +15,7 @@ class random_repeat():
         self.account = Account( self.money )
         self.account.set_stop(1000,10000)
         self.currency_string = 'EURUSD'
-        self.currency = Currency( self.currency_string , '2015-1' , '2015-12' )
+        self.currency = Currency( self.currency_string , '2015-1' , '2015-1' )
         self.multiple = 3
         self.minute = 600
         self.main()
@@ -24,7 +27,8 @@ class random_repeat():
             ran = one_or_minus()
             self.account.trade_money( self.currency_string , ran * self.money * self.multiple  )
             data = get( self.currency )
+        graph_earn(self.account.earn)
+        graph_hold_record(self.account.EURUSD_hold_record)
 
-
-for i in range(30):
+for i in range(1):
     s = random_repeat()

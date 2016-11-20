@@ -265,18 +265,6 @@ class Account():
                     i.profit += X_USD_profit(i,self.__AUDUSD_now)
                     self.__AUDUSD_float_profit += i.profit
 
-    def __check_stop(self,currency):
-        if self.__stop_loss == 0 and self.__stop_win == 0:
-            return
-        if self.__hold:
-            for index , i in enumerate(self.__hold):
-                if i.profit < (-self.__stop_loss) and self.__stop_loss != 0:
-                    self.__trade_hold(index , 'Stop loss' , currency)
-                if i.profit > self.__stop_win and self.__stop_win != 0:
-                    self.__trade_hold(index , 'Stop win' , currency)
-        # check_stop -> trade_hold -> __reversal_hold ->
-        # __reversal_hold_bull or __reversal_hold_bear
-
     def __add_difference_to_data(self,currency,volume):
         '''
         add fee to price , when BUY or SELL ,this function will be called
@@ -290,6 +278,18 @@ class Account():
             data.set_price( round( data.price - diff ,5) )
         return data
 
+        
+    def __check_stop(self,currency):
+        if self.__stop_loss == 0 and self.__stop_win == 0:
+            return
+        if self.__hold:
+            for index , i in enumerate(self.__hold):
+                if i.profit < (-self.__stop_loss) and self.__stop_loss != 0:
+                    self.__trade_hold(index , 'Stop loss' , currency)
+                if i.profit > self.__stop_win and self.__stop_win != 0:
+                    self.__trade_hold(index , 'Stop win' , currency)
+        # check_stop -> trade_hold -> __reversal_hold ->
+        # __reversal_hold_bull or __reversal_hold_bear
 
     def __trade_hold(self,index,typee,currency): # 停損停利用
         '''
