@@ -1,0 +1,41 @@
+將自己的電腦連接Github
+	生成SSH key
+	按此頁面步驟完成連接
+	https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+
+
+把自己的專案上傳github
+	創新資料夾
+	new repository
+	git init
+	git add README.md
+	git commit -m "first commit"
+	git remote add origin git@github.com:feveral/NotFork.git
+	git push -u origin master
+
+	如果是第二次以上 push 不用打 10 13 第14行改成
+	git push origin master
+
+
+fork別人的專案
+	不用創新資料夾
+	git clone git@github.com:feveral/helloworld.git
+	要記得bash要進到專案資料夾
+	修改完後
+	git add
+	git commit
+	git push origin master
+	以上步驟只改了自己的github帳號和電腦
+	以下要傳pull request 給原作者
+	按自己專案上的New pull request
+
+	如果原作者改動 要合併 和原作者同步
+	git remote -v   #此行查詢現在專案連接狀態
+	1.git remote add upstream  然後貼原作者的SSH
+	若新增錯upstream 用此行刪除 git remote rm upstream
+
+	2.git fetch upstream master
+	3.git merge upstream master
+
+
+	
