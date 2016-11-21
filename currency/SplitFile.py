@@ -8,24 +8,80 @@ import calendar
 
 class SplitFile():
     def __init__(self):
-        self.AUDJPY = Currency('AUDJPY.txt')
-        self.AUDUSD = Currency('AUDUSD.txt')
-        self.CHFJPY = Currency('CHFJPY.txt')
-        self.EURCAD = Currency('EURCAD.txt')
-        self.EURCHF = Currency('EURCHF.txt')
-        self.EURGBP = Currency('EURGBP.txt')
-        self.EURJPY = Currency('EURJPY.txt')
-        self.EURUSD = Currency('EURUSD.txt')
-        self.GBPCHF = Currency('GBPCHF.txt')
-        self.GBPJPY = Currency('GBPJPY.txt')
-        self.GBPUSD = Currency('GBPUSD.txt')
-        self.NZDJPY = Currency('NZDJPY.txt')
-        self.NZDUSD = Currency('NZDUSD.txt')
-        self.USDCAD = Currency('USDCAD.txt')
-        self.USDCHF = Currency('USDCHF.txt')
-        self.USDJPY = Currency('USDJPY.txt')
-        self.XAGUSD = Currency('XAGUSD.txt')
-        self.XAUUSD = Currency('XAUUSD.txt')
+        try:
+            self.AUDJPY = Currency('AUDJPY.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.AUDUSD = Currency('AUDUSD.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.CHFJPY = Currency('CHFJPY.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.EURCAD = Currency('EURCAD.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.EURCHF = Currency('EURCHF.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.EURGBP = Currency('EURGBP.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.EURJPY = Currency('EURJPY.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.EURUSD = Currency('EURUSD.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.GBPCHF = Currency('GBPCHF.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.GBPJPY = Currency('GBPJPY.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.GBPUSD = Currency('GBPUSD.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.NZDJPY = Currency('NZDJPY.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.NZDUSD = Currency('NZDUSD.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.USDCAD = Currency('USDCAD.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.USDCHF = Currency('USDCHF.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.USDJPY = Currency('USDJPY.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.XAGUSD = Currency('XAGUSD.txt')
+        except FileNotFoundError:
+            pass
+        try:
+            self.XAUUSD = Currency('XAUUSD.txt')
+        except FileNotFoundError:
+            pass
+
+
         try:
             os.mkdir('AUDJPY')
         except OSError:
@@ -98,6 +154,7 @@ class SplitFile():
             os.mkdir('XAUUSD')
         except OSError:
             pass
+
         self.check_time('AUDJPY',self.AUDJPY)
         self.check_time('AUDUSD',self.AUDUSD)
         self.check_time('CHFJPY',self.CHFJPY)

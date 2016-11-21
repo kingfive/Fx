@@ -14,7 +14,7 @@ class random_repeat():
     def __init__(self):
         self.money = 100000
         self.account = Account( self.money )
-        self.account.set_stop(10000,2000)
+        self.account.set_stop(2000,10000)
         self.currency_string = 'EURUSD'
         self.currency = Currency( self.currency_string , '2015-1' , '2016-3' )
         self.multiple = 3
