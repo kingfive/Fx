@@ -11,75 +11,75 @@ class SplitFile():
         try:
             self.AUDJPY = Currency('AUDJPY.txt')
         except FileNotFoundError:
-            pass
+            self.AUDJPY = None
         try:
             self.AUDUSD = Currency('AUDUSD.txt')
         except FileNotFoundError:
-            pass
+            self.AUDUSD = None
         try:
             self.CHFJPY = Currency('CHFJPY.txt')
         except FileNotFoundError:
-            pass
+            self.CHFJPY = None
         try:
             self.EURCAD = Currency('EURCAD.txt')
         except FileNotFoundError:
-            pass
+            self.EURCAD = None
         try:
             self.EURCHF = Currency('EURCHF.txt')
         except FileNotFoundError:
-            pass
+            self.EURCHF = None
         try:
             self.EURGBP = Currency('EURGBP.txt')
         except FileNotFoundError:
-            pass
+            self.EURGBP = None
         try:
             self.EURJPY = Currency('EURJPY.txt')
         except FileNotFoundError:
-            pass
+            self.EURJPY = None
         try:
             self.EURUSD = Currency('EURUSD.txt')
         except FileNotFoundError:
-            pass
+            self.EURUSD = None
         try:
             self.GBPCHF = Currency('GBPCHF.txt')
         except FileNotFoundError:
-            pass
+            self.GBPCHF = None
         try:
             self.GBPJPY = Currency('GBPJPY.txt')
         except FileNotFoundError:
-            pass
+            self.GBPJPY = None
         try:
             self.GBPUSD = Currency('GBPUSD.txt')
         except FileNotFoundError:
-            pass
+            self.GBPUSD = None
         try:
             self.NZDJPY = Currency('NZDJPY.txt')
         except FileNotFoundError:
-            pass
+            self.NZDJPY = None
         try:
             self.NZDUSD = Currency('NZDUSD.txt')
         except FileNotFoundError:
-            pass
+            self.NZDUSD = None
         try:
             self.USDCAD = Currency('USDCAD.txt')
         except FileNotFoundError:
-            pass
+            self.USDCAD = None
         try:
             self.USDCHF = Currency('USDCHF.txt')
         except FileNotFoundError:
-            pass
+            self.USDCHF = None
         try:
             self.USDJPY = Currency('USDJPY.txt')
         except FileNotFoundError:
-            pass
+            self.USDJPY = None
         try:
             self.XAGUSD = Currency('XAGUSD.txt')
         except FileNotFoundError:
-            pass
+            self.XAGUSD = None
         try:
             self.XAUUSD = Currency('XAUUSD.txt')
         except FileNotFoundError:
-            pass
+            self.XAUUSD = None
 
 
         try:
@@ -154,25 +154,42 @@ class SplitFile():
             os.mkdir('XAUUSD')
         except OSError:
             pass
-
-        self.check_time('AUDJPY',self.AUDJPY)
-        self.check_time('AUDUSD',self.AUDUSD)
-        self.check_time('CHFJPY',self.CHFJPY)
-        self.check_time('EURCAD',self.EURCAD)
-        self.check_time('EURCHF',self.EURCHF)
-        self.check_time('EURGBP',self.EURGBP)
-        self.check_time('EURJPY',self.EURJPY)
-        self.check_time('EURUSD',self.EURUSD)
-        self.check_time('GBPCHF',self.GBPCHF)
-        self.check_time('GBPJPY',self.GBPJPY)
-        self.check_time('GBPUSD',self.GBPUSD)
-        self.check_time('NZDJPY',self.NZDJPY)
-        self.check_time('NZDUSD',self.NZDUSD)
-        self.check_time('USDCAD',self.USDCAD)
-        self.check_time('USDCHF',self.USDCHF)
-        self.check_time('USDJPY',self.USDJPY)
-        self.check_time('XAGUSD',self.XAGUSD)
-        self.check_time('XAUUSD',self.XAUUSD)
+        if self.AUDJPY:
+            self.check_time('AUDJPY',self.AUDJPY)
+        if self.AUDUSD:
+            self.check_time('AUDUSD',self.AUDUSD)
+        if self.CHFJPY:
+            self.check_time('CHFJPY',self.CHFJPY)
+        if self.EURCAD:
+            self.check_time('EURCAD',self.EURCAD)
+        if self.EURCHF:
+            self.check_time('EURCHF',self.EURCHF)
+        if self.EURGBP:
+            self.check_time('EURGBP',self.EURGBP)
+        if self.EURJPY:
+            self.check_time('EURJPY',self.EURJPY)
+        if self.EURUSD:
+            self.check_time('EURUSD',self.EURUSD)
+        if self.GBPCHF:
+            self.check_time('GBPCHF',self.GBPCHF)
+        if self.GBPJPY:
+            self.check_time('GBPJPY',self.GBPJPY)
+        if self.GBPUSD:
+            self.check_time('GBPUSD',self.GBPUSD)
+        if self.NZDJPY:
+            self.check_time('NZDJPY',self.NZDJPY)
+        if self.NZDUSD:
+            self.check_time('NZDUSD',self.NZDUSD)
+        if self.USDCAD:
+            self.check_time('USDCAD',self.USDCAD)
+        if self.USDCHF:
+            self.check_time('USDCHF',self.USDCHF)
+        if self.USDJPY:
+            self.check_time('USDJPY',self.USDJPY)
+        if self.XAGUSD:
+            self.check_time('XAGUSD',self.XAGUSD)
+        if self.XAUUSD:
+            self.check_time('XAUUSD',self.XAUUSD)
 
     def check_time(self,currency_string,currency):
         data = currency.get_data()

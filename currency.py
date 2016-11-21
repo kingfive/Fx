@@ -3,19 +3,26 @@ from datetime import datetime
 import os
 class Currency():
 
-    def __init__(self,currency,first_range,last_range):
+    def __init__(self,currency,first_range=None,last_range=None):
         self.__currency = currency
         self.first_range = first_range #string
         self.last_range = last_range #string
-        self.__now_year = int(self.first_range[0:4])
-        self.__now_month = int(self.first_range[5:])
-        self.__last_year = int(self.last_range[0:4])
-        self.__last_month = int(self.last_range[5:])
-        self.__change_path()
-        self.__file_input = open('currency' + '/' +
-                            currency + '/' +
-                            self.first_range[0:4] + '-' +
-                            self.first_range[5:] , 'rt')
+        if self.first_range != None :
+            self.__now_year = int(self.first_range[0:4])
+            self.__now_month = int(self.first_range[5:])
+            self.__last_year = int(self.last_range[0:4])
+            self.__last_month = int(self.last_range[5:])
+            self.__change_path()
+            self.__file_input = open('currency' + '/' +
+                                currency + '/' +
+                                self.first_range[0:4] + '-' +
+                                self.first_range[5:] , 'rt')
+        else:
+            self.__now_year = 0 # 故意讓他們不相等
+            self.__now_month = 1 # get_next_file 才能正常運作
+            self.__last_year = 2
+            self.__last_month = 3
+            self.__file_input = open(currency,'rt')
 
     def get_data(self):
         '''
