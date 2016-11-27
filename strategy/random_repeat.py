@@ -16,7 +16,7 @@ class random_repeat():
         self.account = Account( self.money )
         self.account.set_stop(2000,10000)
         self.currency_string = 'EURUSD'
-        self.currency = Currency( self.currency_string , '2015-1' , '2016-3' )
+        self.currency = Currency( self.currency_string , '2012-1' , '2013-3' )
         self.multiple = 3
         self.minute = 600
         self.main()

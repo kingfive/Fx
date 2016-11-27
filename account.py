@@ -33,7 +33,7 @@ class Account():
 
     if add now currency
     you have to revise the code :
-        chooser  calculate_profit  update  get_now
+        chooser  calculate_profit  update  price_now
 
     '''
 
@@ -66,7 +66,7 @@ class Account():
         self.__stop_win_multiple = 0
         self.__stop_loss = 0 # 停損
         self.__stop_win = 0 # 停利
-        self.__stop_type = '' # 停損停利的種類
+        self.__stop_type = '' # 停損停利的種類(倍數或money)
         self.__difference = { # 匯差
             'EURUSD' : 0.00006 ,
             'AUDUSD' : 0.00007
@@ -91,10 +91,10 @@ class Account():
             self.__EURUSD_now = data # updata data
         elif data.currency =='AUDUSD' :
             self.__AUDUSD_now = data # updata data
-        self.__chooser( data.currency )
-        self.__calculate_profit( data.currency ) # 計算浮動損益(尚未把浮動損益加入現金)
+        self.__chooser( data.currency )# 取得所要計算的function( 每個貨幣對不同 )
+        self.__calculate_profit( data.currency ) # 計算浮動損益
         self.__check_stop( data.currency ) # 確認是否到停損的價格
-        self.__add_float_profit_to_money()
+        self.__add_float_profit_to_money()# 把浮動損益值加入money
 
         if self.__stop_type == 'Multiple type' :
             self.set_stop_multiple(self.__stop_loss_multiple,self.__stop_win_multiple)
@@ -104,12 +104,12 @@ class Account():
         if volume == 0:
             return
         self.__chooser( currency ) # 置換不同貨幣對需要的function
-        data = self.__add_difference_to_data( currency , volume )#買進OR賣出時補手續費
+        data = self.__add_difference_to_data( currency , volume ) # 買進OR賣出時補手續費
         order = Order(data , volume + self.__volume() )
         self.__hold_record.append( order ) # update hold record
         order = Order(data , volume)
         self.__order_history.append( order ) # update order history
-        order = Order(data , volume)
+        order = Order(data , volume) # 和上上行一樣 因為後面order要做計算 會影響存起來的
         self.__reversal( order ) # 沖銷之前的下單（如果有的話）
         self.__calculate_profit( currency )
         self.__add_float_profit_to_money()
@@ -157,7 +157,7 @@ class Account():
             volume += h.volume
         return volume
 
-    def get_now(self, currency):
+    def price_now(self, currency):
         if  currency == 'EURUSD' :
             return self.__EURUSD_now
         if  currency == 'AUDUSD' :
@@ -241,16 +241,20 @@ class Account():
         self.__money_not_add_float_profit += earn.profit
         self.__calculate_profit( earn.buy.data.currency )
         self.__add_float_profit_to_money()
-        if earn.profit > 0:
-            win_or_not = 1
-        else:
-            win_or_not = 0
-        self.__win_rate = (self.reversal_time* self.win_rate + win_or_not) / (self.reversal_time + 1)
-        self.__reversal_time += 1
+        self.__calculate_win_rate( earn.profit )
         earn.set_money_and_win_rate( self.win_rate , self.money )
         self.earn.append( earn )
 
-    def __calculate_profit(self ,currency):
+    def __calculate_win_rate(self , profit):
+        if profit > 0:
+            win_or_not = 1
+        else:
+            win_or_not = 0
+        self.__win_rate = (self.reversal_time * self.win_rate + win_or_not) / + \
+                          (self.reversal_time + 1)
+        self.__reversal_time += 1
+
+    def __calculate_profit(self , currency):
         if currency == 'EURUSD' :
             self.__EURUSD_float_profit = 0
             if self.__hold :
@@ -272,14 +276,13 @@ class Account():
         add fee to price , when BUY or SELL ,this function will be called
                            ( when call "trade_money" or "trade_multiple" )
         '''
-        diff = self.__difference[ currency ]
-        data = copy( self.get_now( currency ) )
+        diff = self.__difference[ currency ] #取得匯差
+        data = copy( self.price_now( currency ) )
         if volume > 0:
             data.set_price( round( data.price + diff ,5) )
         elif volume < 0:
             data.set_price( round( data.price - diff ,5) )
         return data
-
 
     def __check_stop(self,currency):
         if self.__stop_loss == 0 and self.__stop_win == 0:
